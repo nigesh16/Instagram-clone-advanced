@@ -4,6 +4,7 @@ import pic from "../assets/Insta-pic.webp"
 import meta from "../assets/meta.png"
 import {useNavigate} from "react-router-dom"
 import Footer from "../components/Footer.jsx"
+import axios from "axios"
 
 function Login (){
     const navigate = useNavigate()
@@ -12,6 +13,39 @@ function Login (){
     const[password, setPassword] = useState("");
 
     const loginValid = username.length >= 1 && password.length >= 6;
+
+    // LOGIN FUNCTION
+    const handleLogin = async () => {
+
+        // basic validation
+        if (!username) {
+            alert("Enter email / mobile / username");
+            return;
+        }
+
+        if (!password || password.length < 6) {
+            alert("Password must be at least 6 characters");
+            return;
+        }
+
+        try {
+            const res = await axios.post("http://localhost:5000/api/auth/login", {
+                identifier: username,
+                password: password
+            });
+
+            // store token
+            localStorage.setItem("token", res.data.token);
+
+            alert("Login successful!");
+
+            // navigate to home
+            navigate("/");
+
+        } catch (err) {
+            alert(err.response?.data?.message || "Login failed");
+        }
+    };
 
 
     return(
@@ -54,10 +88,13 @@ function Login (){
                     </div>
                     
                     <button disabled={!loginValid} className={`active:opacity-70 text-[15px] font-medium w-full mt-6 h-[45px] text-gray-50 rounded-[20px] active:scale-[0.98] ${loginValid ? "bg-blue-600 cursor-pointer" : "bg-blue-300 cursor-not-allowed"} `}
-                    onClick={()=>console.log("userName : "+username+"\npassword : "+password)}>Log in</button>
+                    onClick={handleLogin}>Log in</button>
+
                     <button className="text-[15px] font-medium w-full mt-3 h-[47px] rounded-[20px] hover:bg-gray-100 active:scale-[0.99] active:opacity-65 cursor-pointer">Forgot Password?</button>
+
                     <button className="text-[15px] font-medium w-full mt-12 h-[47px] text-blue-600 border-blue-500 border-[1px] rounded-[20px] cursor-pointer hover:bg-gray-100 active:scale-[0.98] active:opacity-70"
                     onClick={()=>navigate('/signup')}>Create new account</button>
+
                     <div className="pt-[18px] font-medium text-[17px] w-full text-center"><img className="w-5 inline" src={meta} alt="" /> Meta</div>
                 </div>
             </div>
@@ -66,4 +103,5 @@ function Login (){
         </>
     )
 }
+
 export default Login

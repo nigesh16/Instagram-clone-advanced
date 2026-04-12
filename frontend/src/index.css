@@ -24,3 +24,13 @@ input[type="date"] {
   padding-right: 12px;
   padding-bottom: 3px;
 }
+
+/* Hide scrollbar (Chrome, Edge, Safari) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar (Firefox) */
+.scrollbar-hide {
+  scrollbar-width: none;
+}
