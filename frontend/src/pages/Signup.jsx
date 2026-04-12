@@ -5,6 +5,8 @@ import Footer from "../components/Footer.jsx";
 import { useState } from "react";
 import axios from "axios";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function Signup(){
 
     const navigate = useNavigate();
@@ -78,13 +80,13 @@ function Signup(){
                 mobile: !isEmail ? formData.identifier : "",
             };
 
-            await axios.post("http://localhost:5000/api/auth/signup", payload);
+            await axios.post(`${BASE_URL}/api/auth/signup`, payload);
 
-            alert("Signup successful ✅");
+            alert("Signup successful!");
             navigate("/login");
 
         } catch (err) {
-            alert(err.response?.data?.message || "Signup failed ❌");
+            alert(err.response?.data?.message || "Signup failed!");
         }
     };
 

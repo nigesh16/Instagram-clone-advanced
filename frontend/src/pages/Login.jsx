@@ -6,6 +6,8 @@ import {useNavigate} from "react-router-dom"
 import Footer from "../components/Footer.jsx"
 import axios from "axios"
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 function Login (){
     const navigate = useNavigate()
 
@@ -29,7 +31,7 @@ function Login (){
         }
 
         try {
-            const res = await axios.post("http://localhost:5000/api/auth/login", {
+            const res = await axios.post(`${BASE_URL}/api/auth/login`, {
                 identifier: username,
                 password: password
             });
