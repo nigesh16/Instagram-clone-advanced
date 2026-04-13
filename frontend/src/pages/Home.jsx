@@ -170,10 +170,10 @@ function Home(){
                                     />
                                     <div>
                                             <p className="text-sm font-semibold cursor-pointer">
-                                            {currentUser.username}
+                                            {currentUser?.username}
                                             </p>
                                             <p className="text-[12px] text-gray-600">
-                                            {currentUser.name}
+                                            {currentUser?.name}
                                             </p>
                                     </div>
                                 </div>
