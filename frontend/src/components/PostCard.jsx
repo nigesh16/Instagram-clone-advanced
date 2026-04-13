@@ -8,8 +8,16 @@ function PostCard({ post }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isFollowing, setIsFollowing] = useState(post.isFollowing);
 
-  // ✅ Only for heart toggle
+  // Only for heart toggle
   const [liked, setLiked] = useState(false);
+  const [animate, setAnimate] = useState(false);
+
+  const handleLike = () => {
+    setLiked(prev => !prev);
+
+    setAnimate(true);
+    setTimeout(() => setAnimate(false), 100);
+  };
 
   const MAX_LENGTH = 60;
 
@@ -85,14 +93,18 @@ function PostCard({ post }) {
           {liked ? (
             <FaHeart
               size={23}
-              onClick={() => setLiked(prev => !prev)}
-              className="inline mr-2 cursor-pointer text-red-500 transition-transform duration-200 hover:scale-110"
+              onClick={handleLike}
+              className={`inline mr-2 cursor-pointer text-red-500 hover:scale-110 transition-transform duration-200 ${
+                animate ? "scale-[1.2]" : "scale-100"
+              }`}
             />
           ) : (
             <FaRegHeart
               size={23}
-              onClick={() => setLiked(prev => !prev)}
-              className="inline mr-2 cursor-pointer transition-transform duration-200 hover:scale-110"
+              onClick={handleLike}
+              className={`inline mr-2 cursor-pointer hover:scale-110 transition-transform duration-200 ${
+                animate ? "scale-[1.2]" : "scale-100"
+              }`}
             />
           )}
 

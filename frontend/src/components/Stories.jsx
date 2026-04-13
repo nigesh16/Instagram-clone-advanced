@@ -13,6 +13,15 @@ function Stories() {
 
   // LIKE STATE (ONLY THIS ADDED)
   const [liked, setLiked] = useState(false);
+  const [animate, setAnimate] = useState(false);
+
+  const handleLike = () => {
+    setLiked(!liked);
+
+    // trigger animation
+    setAnimate(true);
+    setTimeout(() => setAnimate(false), 100);
+  };
 
   const checkScroll = () => {
     const el = scrollRef.current;
@@ -127,7 +136,7 @@ function Stories() {
 
           {/* STORY VIEWER */}
           {activeIndex !== null && (
-            <div className="fixed inset-0 h-[92vh] md:h-full bg-black bg-opacity-90 flex items-center justify-center z-50">
+            <div className="fixed inset-0 h-[100vh] w-full bg-black bg-opacity-90 flex items-center justify-center z-50">
 
               {/* CLOSE */}
               <button
@@ -141,14 +150,14 @@ function Stories() {
               {activeIndex > 0 && (
                 <button
                   onClick={prevStory}
-                  className="absolute left-5 text-white text-3xl"
+                  className="absolute left-5 z-50  text-white text-3xl"
                 >
                   ‹
                 </button>
               )}
 
               {/* CONTENT */}
-              <div className="relative w-sm h-[78vh] md:h-[85vh] flex items-center justify-center">
+              <div className="relative w-sm h-[75%] md:h-[85vh] flex items-center justify-center">
 
                 <img
                   src={stories[activeIndex].image}
@@ -177,13 +186,18 @@ function Stories() {
                   {/* Like CHANGE */}
                   {liked ? (
                     <FaHeart
-                      onClick={() => setLiked(false)}
-                      className="text-red-500 text-xl cursor-pointer"
+                      onClick={handleLike}
+                      className={`text-red-500 text-xl cursor-pointer transition-transform duration-200 ${
+        animate ? "scale-[1.3]" : "scale-100"
+      }`}
+
                     />
                   ) : (
                     <FaRegHeart
-                      onClick={() => setLiked(true)}
-                      className="text-white text-xl cursor-pointer"
+                      onClick={handleLike}
+                      className={`text-white text-xl cursor-pointer transition-transform duration-200 ${
+        animate ? "scale-[1.3]" : "scale-100"
+      }`}
                     />
                   )}
 

@@ -52,7 +52,7 @@ function Login (){
 
     return(
         <>
-        <div className="flex h-[98vh] lg:h-[95vh] w-full bg-white">
+        <div className="flex h-[100vh] lg:h-[95vh] w-full bg-white">
             {/* Left Half */}
             <div className=" w-[130%] hidden lg:block border-gray-300 border-r-2 border-b-[1px]">
                 <div className="bg-white h-[20%]">
