@@ -136,7 +136,7 @@ function Stories() {
 
           {/* STORY VIEWER */}
           {activeIndex !== null && (
-            <div className="fixed inset-0 h-[100vh] w-full bg-black bg-opacity-90 flex items-center justify-center z-50">
+            <div className="fixed inset-0  w-full bg-black bg-opacity-90 flex items-center justify-center z-50">
 
               {/* CLOSE */}
               <button
