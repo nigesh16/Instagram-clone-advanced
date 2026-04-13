@@ -23,6 +23,8 @@ import { useNavigate } from "react-router-dom";
 function Home(){
     const [showMenu, setShowMenu] = useState(false);
 
+    const [currentUser, setCurrentUser] = useState(null);
+
     const [followedUsers, setFollowedUsers] = useState({});
     const navigate = useNavigate();
 
