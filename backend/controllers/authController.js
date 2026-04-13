@@ -5,33 +5,69 @@ const jwt = require("jsonwebtoken");
 // SIGNUP
 exports.signup = async (req, res) => {
   try {
-    const { name, username, email, mobile, password, birthdate } = req.body;
+    let { name, username, email, mobile, password, birthdate } = req.body;
 
-    // check existing user
+    // Trim inputs (very important)
+    name = name?.trim();
+    username = username?.trim();
+    email = email?.trim();
+    mobile = mobile?.trim();
+
+    // 🔥 Basic validation
+    if (!name || !username || !email || !password) {
+      return res.status(400).json({ message: "Required fields missing" });
+    }
+
+    // Build query dynamically (avoid empty values)
+    const query = [];
+
+    if (email) query.push({ email });
+    if (mobile) query.push({ mobile });
+    if (username) query.push({ username });
+
     const userExists = await User.findOne({
-      $or: [{ email }, { mobile }, { username }],
+      $or: query,
     });
 
     if (userExists) {
+      // Better error message
+      if (userExists.email === email) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+      if (userExists.username === username) {
+        return res.status(400).json({ message: "Username already exists" });
+      }
+      if (mobile && userExists.mobile === mobile) {
+        return res.status(400).json({ message: "Mobile already exists" });
+      }
+
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // hash password
+    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // create user
+    // Convert empty mobile to null
+    const finalMobile = mobile && mobile !== "" ? mobile : null;
+
+    // Create user
     const user = await User.create({
       name,
       username,
       email,
-      mobile,
+      mobile: finalMobile,
       password: hashedPassword,
       birthdate,
     });
 
-    res.status(201).json({ message: "User registered successfully" });
+    res.status(201).json({
+      message: "User registered successfully",
+      userId: user._id,
+    });
+
   } catch (error) {
+    console.error(error); // for debugging
     res.status(500).json({ message: "Server error" });
   }
 };
