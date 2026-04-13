@@ -42,6 +42,8 @@ function Home(){
             if (payload.exp < currentTime) {
                 localStorage.removeItem("token");
                 navigate("/login");
+            }else{
+                setCurrentUser(payload);
             }
 
         } catch (error) {
@@ -166,10 +168,10 @@ function Home(){
                                     />
                                     <div>
                                             <p className="text-sm font-semibold cursor-pointer">
-                                            _onx77_
+                                            {currentUser.username}
                                             </p>
                                             <p className="text-[12px] text-gray-600">
-                                                nigesh
+                                            {currentUser.name}
                                             </p>
                                     </div>
                                 </div>
